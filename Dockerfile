@@ -1,10 +1,18 @@
 FROM node:8
 LABEL maintainer="@backendeveloper <previousdeveloper@gmail.com>"
 
+WORKDIR /app
+RUN chmod +x /app
+
 ENV GITURL "https://github.com/backendeveloper/crawler-server.git"
-WORKDIR /usr/src/app
+
+COPY . .
+
 RUN git clone $GITURL 
-RUN cd crawler-server
+# RUN cd crawler-server
+
+# ADD /crawler-server/package.json /app/package.json 
+ADD [ ".", "/crawler-server/package.json"]
 
 RUN apt-get update && apt-get -yq upgrade && apt-get install \
     && apt-get autoremove && apt-get autoclean
@@ -22,13 +30,11 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 
-ARG CACHEBUST=1
-
-COPY package*.json ./
-
 RUN npm install
+RUN yarn
 
-COPY . .
+ARG CACHEBUST=1
+RUN yarn add puppeteer
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
     && mkdir -p /home/pptruser/Downloads \
@@ -38,7 +44,7 @@ USER pptruser
 
 EXPOSE 8080
 ENTRYPOINT ["dumb-init", "--"]
-CMD [ "npm", "start" ]
+CMD ["yarn", "start"]
 
 # INSTALL
 # docker build -t crawler-server/app .
