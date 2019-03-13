@@ -1,0 +1,23 @@
+{
+  "name": "crawler-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/backendeveloper/crawler-server.git"
+  },
+  "author": "@backendeveloper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/backendeveloper/crawler-server/issues"
+  },
+  "homepage": "https://github.com/backendeveloper/crawler-server#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "puppeteer": "^1.13.0"
+  }
+}
