@@ -12,7 +12,7 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 
-let scrape = async (path) => {
+let scrape = async (path, xpath) => {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
 
@@ -21,7 +21,8 @@ let scrape = async (path) => {
     const result = await page.evaluate(() => {
         const featureArticle = document
             .evaluate(
-                '//*[@id="classifiedDetail"]/div[1]/div[1]/h1',
+                // '//*[@id="classifiedDetail"]/div[1]/div[1]/h1',
+                xpath,
                 document,
                 null,
                 XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -78,8 +79,9 @@ let scrapeGoogle = async (path) => {
 
 app.get('/getpath', (req, res) => {
     let url = req.query.url;
+    let xpath = req.query.xpath;
 
-    scrape(url).then((value) => {
+    scrape(url, xpath).then((value) => {
         // if (value == 'Blocked!') {
         //     blockedCounter++;
         // } else {
