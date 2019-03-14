@@ -9,7 +9,7 @@ ENV GITURL "https://github.com/backendeveloper/crawler-server.git"
 COPY . .
 
 RUN git clone $GITURL 
-RUN git pull
+# RUN git pull
 # RUN cd crawler-server
 
 # ADD /crawler-server/package.json /app/package.json 
@@ -31,10 +31,10 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 
+ARG CACHEBUST=1
+
 RUN npm install
 RUN yarn
-
-ARG CACHEBUST=1
 RUN yarn add puppeteer
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
@@ -45,7 +45,7 @@ USER pptruser
 
 EXPOSE 8080
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["yarn", "start"]
+CMD [ "npm", "start" ]
 
 # INSTALL
 # docker build -t crawler-server/app .
