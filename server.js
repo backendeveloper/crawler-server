@@ -16,7 +16,7 @@ let scrape = async (path) => {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
 
-    await page.goto(path, { waitUntil: 'networkidle2' });
+    await page.goto(path);
 
     const result = await page.evaluate(() => {
         const featureArticle = document
