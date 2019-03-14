@@ -9,6 +9,7 @@ ENV GITURL "https://github.com/backendeveloper/crawler-server.git"
 COPY . .
 
 RUN git clone $GITURL 
+RUN git pull
 # RUN cd crawler-server
 
 # ADD /crawler-server/package.json /app/package.json 
